@@ -92,8 +92,7 @@ def colors(df):
 def applications_counts(col):
     application = df.groupby(["timestamp", col], as_index=False)["job_title"].count()
     application = application[application[col]==True].rename(columns={"job_title":"count"})
-    application = application.drop(col, axis=1)
-    application = pd.merge(df, application, how="left", on="timestamp")
+    application = pd.merge(df, application, how="left", on=["timestamp", col])
     application = application.sort_values("timestamp")
     application["count"] = application["count"].fillna(0)
     apps_count = []
